@@ -1,26 +1,15 @@
 <script setup lang="ts">
-import { Item } from "types";
+import { Story } from "types";
+import { createUrl } from "../utils/urlUtils";
 
-const API_URL = "https://hacker-news.firebaseio.com/";
-const API_VERSION = "v0";
-const DOT_JSON = ".json";
 const PATHS = ["/newstories", "/beststories"];
 
 const storyIds = ref<number[]>([]);
 const storyPage = ref(0);
-const storiesToDisplay = ref<Item[]>([]);
+const storiesToDisplay = ref<Story[]>([]);
 const sortByIndex = ref(0);
 
 const setSortByIndex = (newIndex: number) => (sortByIndex.value = newIndex);
-
-const createUrl = (
-  path: string,
-  id?: string | number,
-  apiVersion = API_VERSION
-) => {
-  const item = id ? `/${id}` : "";
-  return `${API_URL}${apiVersion}/${path}${item}${DOT_JSON}`;
-};
 
 watchEffect(async () => {
   // this effect will run immediately and then
@@ -40,7 +29,7 @@ watchEffect(async () => {
   const itemPromises = responses.map(async (res) => {
     return res.json();
   });
-  storiesToDisplay.value = (await Promise.all(itemPromises)) as Item[];
+  storiesToDisplay.value = (await Promise.all(itemPromises)) as Story[];
 });
 </script>
 
@@ -71,7 +60,7 @@ watchEffect(async () => {
     </div>
     <div>
       <div v-for="story in storiesToDisplay" :key="story.id">
-        <ArticleItem :item="story" />
+        <ListArticleItem :item="story" />
       </div>
     </div>
   </div>

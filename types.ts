@@ -1,13 +1,20 @@
 
-export type Item = {
+interface ItemBase {
+  id : number
   by : string,
-  descendants? : number
-  id? : number
-  kids? : number[],
-  score? : number,
-  time? : number,
-  title? : string
-  type? : string
-  url?: string
-  dead?: boolean
+  kids : number[],
+  score : number,
+  time : number,
+  type: string
+}
+
+export interface Comment extends ItemBase {
+  text : string
+  
+}
+
+export interface Story extends ItemBase {
+  url: string
+  descendants: number[],
+  title : string
 }

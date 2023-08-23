@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { Item } from "types";
+import { Story } from "types";
 const props = defineProps({
   item: Object,
 });
 
-const item = props.item as Item;
+const item = props.item as Story;
 const urlToShow = computed(() => {
   const url = item.url;
   const isGithubLink = url?.includes("github");
@@ -12,6 +12,7 @@ const urlToShow = computed(() => {
   const domain = splitUrl?.at(2) ?? "";
   return `${domain} ${isGithubLink ? splitUrl?.at(3) : ""}`;
 });
+const commentsUrl = "/item?id=" + item.id;
 </script>
 
 <template>
@@ -23,11 +24,11 @@ const urlToShow = computed(() => {
       <p class="text-stone-400">({{ urlToShow }})</p>
     </a>
     <div class="flex gap-2">
-      <p class="text-xs text-stone-400">score: {{ item.score }},</p>
+      <p class="text-xs text-stone-400">{{ item.score }} points,</p>
       <p class="text-xs text-stone-400">by: {{ item.by }}</p>
-      <p class="text-xs text-stone-400">
+      <a class="text-xs text-stone-400" :href="commentsUrl">
         comments: {{ item.kids?.length ?? 0 }}
-      </p>
+      </a>
     </div>
   </div>
 </template>
