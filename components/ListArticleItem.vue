@@ -1,22 +1,24 @@
 <script setup lang="ts">
 import { Story } from "types";
 const props = defineProps({
-  item: Object,
+  id: Number,
 });
 
-const item = props.item as Story;
+const id = props.id;
+const { data: item } = useFetch<Story>(`/api/item/${id}`);
+
 const urlToShow = computed(() => {
-  const url = item.url;
+  const url = item.value?.url;
   const isGithubLink = url?.includes("github");
   const splitUrl = url?.split("/");
   const domain = splitUrl?.at(2) ?? "";
   return `${domain} ${isGithubLink ? splitUrl?.at(3) : ""}`;
 });
-const commentsUrl = "/item?id=" + item.id;
+const commentsUrl = "/item?id=" + id;
 </script>
 
 <template>
-  <div class="border-b border-emerald-600 p-4">
+  <div v-if="item" class="border-b border-emerald-600 p-4">
     <a
       class="flex text-lg text-emerald-600 hover:text-emerald-400 gap-2"
       :href="item.url"
@@ -27,7 +29,7 @@ const commentsUrl = "/item?id=" + item.id;
       <p class="text-xs text-stone-400">{{ item.score }} points,</p>
       <p class="text-xs text-stone-400">by: {{ item.by }}</p>
       <a class="text-xs text-stone-400" :href="commentsUrl">
-        comments: {{ item.kids?.length ?? 0 }}
+        comments: {{ item.descendants ?? 0 }}
       </a>
     </div>
   </div>

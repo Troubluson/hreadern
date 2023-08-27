@@ -7,11 +7,10 @@ const comment = props.comment as Comment;
 const childComments = ref<Comment[]>([]);
 watchEffect(async () => {
   const childCommentIds = comment?.kids ?? [];
-  const childCommentResponses = await Promise.all(
-    childCommentIds.map((commentId) => fetch(createUrl("/item", commentId)))
-  );
   childComments.value = await Promise.all(
-    childCommentResponses.map(async (res) => (await res.json()) as Comment)
+    childCommentIds.map((commentId) =>
+      fetch(createUrl("/item", commentId)).then((res) => res.json())
+    )
   );
 });
 </script>

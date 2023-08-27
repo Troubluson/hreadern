@@ -5,7 +5,7 @@ import { createUrl } from "../utils/urlUtils";
 const route = useRoute();
 const itemId = route.query["id"] as string;
 const comments = ref<Comment[]>([]);
-const { data: story } = useFetch<Story>(createUrl("/item", itemId)),
+const { data: story } = useFetch<Story>("/api/item/" + itemId);
 
 watchEffect(async () => {
   const commentIds = story.value?.kids ?? [];

@@ -2,34 +2,14 @@
 import { Story } from "types";
 import { createUrl } from "../utils/urlUtils";
 
-const PATHS = ["/newstories", "/beststories"];
+const STORY_TYPES = ["top", "new"];
 
-const storyIds = ref<number[]>([]);
 const storyPage = ref(0);
-const storiesToDisplay = ref<Story[]>([]);
-const sortByIndex = ref(0);
-
-const setSortByIndex = (newIndex: number) => (sortByIndex.value = newIndex);
-
-watchEffect(async () => {
-  // this effect will run immediately and then
-  // re-run whenever currentBranch.value changes
-  const url = createUrl(PATHS[sortByIndex.value]);
-  const response = await fetch(url);
-  storyIds.value = (await response.json()) as number[];
-});
-
-watchEffect(async () => {
-  const start = storyPage.value * 50;
-  const storiesToFetch = storyIds.value.slice(start, start + 50);
-  const responsePromises = storiesToFetch.map((storyId) =>
-    fetch(createUrl("/item", storyId))
-  );
-  const responses = await Promise.all(responsePromises);
-  const itemPromises = responses.map(async (res) => {
-    return res.json();
-  });
-  storiesToDisplay.value = (await Promise.all(itemPromises)) as Story[];
+const sortBy = ref(STORY_TYPES[0]);
+const fetchUrl = computed(() => `/api/list/${sortBy.value}`);
+const setSortBy = (newIndex: string) => (sortBy.value = newIndex);
+const { data: storyIds, pending } = useFetch<number[]>(fetchUrl, {
+  watch: [sortBy],
 });
 </script>
 
@@ -41,7 +21,7 @@ watchEffect(async () => {
         role="group"
       >
         <button
-          @click="setSortByIndex(0)"
+          @click="setSortBy('top')"
           type="button"
           class="inline-block rounded-l bg-primary-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-primary-600 focus:bg-primary-600 focus:outline-none focus:ring-0 active:bg-primary-700"
           data-te-ripple-init
@@ -50,7 +30,7 @@ watchEffect(async () => {
           New
         </button>
         <button
-          @click="setSortByIndex(1)"
+          @click="setSortBy('new')"
           type="button"
           class="inline-block bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-primary-600 focus:bg-primary-600 focus:outline-none focus:ring-0 active:bg-primary-700"
         >
@@ -59,8 +39,9 @@ watchEffect(async () => {
       </div>
     </div>
     <div>
-      <div v-for="story in storiesToDisplay" :key="story.id">
-        <ListArticleItem :item="story" />
+      <div v-if="pending">Loading</div>
+      <div v-for="id in storyIds" :key="id">
+        <ListArticleItem :id="id" />
       </div>
     </div>
   </div>
