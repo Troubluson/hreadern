@@ -3,15 +3,12 @@ import { Comment, Story } from "types";
 import { createUrl } from "../utils/urlUtils";
 
 const route = useRoute();
+const itemId = route.query["id"] as string;
 const comments = ref<Comment[]>([]);
-const story = ref<Story>();
+const { data: story } = useFetch<Story>(createUrl("/item", itemId)),
 
 watchEffect(async () => {
-  const itemId = route.query["id"] as string;
-  const response = await fetch(createUrl("/item", itemId));
-  const item = (await response.json()) as Story;
-  story.value = item;
-  const commentIds = item.kids ?? [];
+  const commentIds = story.value?.kids ?? [];
   const commentItemResponses = await Promise.all(
     commentIds.map((commentId) => fetch(createUrl("/item", commentId)))
   );
