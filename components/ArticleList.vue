@@ -27,14 +27,14 @@ const { data: storyIds, pending } = useFetch<number[]>(fetchUrl, {
           data-te-ripple-init
           data-te-ripple-color="light"
         >
-          New
+          Top
         </button>
         <button
           @click="setSortBy('new')"
           type="button"
           class="inline-block bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-primary-600 focus:bg-primary-600 focus:outline-none focus:ring-0 active:bg-primary-700"
         >
-          Best
+          New
         </button>
       </div>
     </div>
