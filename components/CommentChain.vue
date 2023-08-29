@@ -18,7 +18,14 @@ watchEffect(async () => {
 <template>
   <div>
     <div v-if="comment" class="ml-6 mb-4">
-      <p class="border p-2" v-html="comment.text"></p>
+      <div class="border p-2">
+        <p class="text-stone-400">
+          {{ comment.by }}
+          {{ timeSince(comment.time) }}
+        </p>
+        <p v-html="comment.text"></p>
+        comment
+      </div>
       <div v-for="child in childComments">
         <CommentChain :comment="child" />
       </div>

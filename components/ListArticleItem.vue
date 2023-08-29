@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Story } from "types";
+import { timeSince } from "../utils/timeUtils";
 const props = defineProps({
   id: Number,
 });
@@ -27,6 +28,7 @@ const commentsUrl = "/item?id=" + id;
     </NuxtLink>
     <div class="flex gap-2 text-xs text-stone-400">
       <p>{{ item.score }} points</p>
+      <p>{{ timeSince(item.time) }}</p>
       <p>by {{ item.by }}</p>
       <NuxtLink :to="commentsUrl">
         comments: {{ item.descendants ?? 0 }}
