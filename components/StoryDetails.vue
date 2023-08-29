@@ -20,14 +20,14 @@ watchEffect(async () => {
 
 <template>
   <div class="p-4">
-    <a :href="story?.url" class="text-stone-400 hover:text-stone-300">
+    <NuxtLink :to="story?.url" class="text-stone-400 hover:text-stone-300">
       <h1 class="text-3xl">
         {{ story?.title }}
       </h1>
       <h2 class="text-1xl">
         {{ story?.url }}
       </h2>
-    </a>
+    </NuxtLink>
     <h2 class="text-2xl text-stone-400">Comments</h2>
     <div class="text-emerald-600 text-sm" v-for="comment in comments">
       <CommentChain :comment="comment" />
