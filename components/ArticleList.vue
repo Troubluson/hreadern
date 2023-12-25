@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { Story } from "types";
-import { createUrl } from "../utils/urlUtils";
-
 const STORY_TYPES = ["top", "new"];
 
 const storyPage = ref(0);
 const sortBy = ref(STORY_TYPES[0]);
 const fetchUrl = computed(() => `/api/list/${sortBy.value}`);
 const setSortBy = (newIndex: string) => (sortBy.value = newIndex);
-const { data: storyIds, pending } = useFetch<number[]>(fetchUrl, {
+const { data: storyIds, pending } = await useFetch<number[]>(fetchUrl, {
   watch: [sortBy],
 });
 </script>

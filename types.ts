@@ -6,7 +6,7 @@ interface ItemBase {
   type: string;
 }
 
-export interface Comment extends ItemBase {
+export interface ArticleComment extends ItemBase {
   text: string;
 }
 
@@ -15,4 +15,9 @@ export interface Story extends ItemBase {
   descendants: number[];
   title: string;
   score: number;
+}
+
+export interface FullStory {
+  story: Story;
+  comments: ArticleComment[];
 }

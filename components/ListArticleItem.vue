@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Story } from "types";
 import { timeSince } from "../utils/timeUtils";
+import type { Story } from "~/types";
+
 const props = defineProps({
   id: Number,
 });
@@ -13,7 +14,7 @@ const urlToShow = computed(() => {
   const isGithubLink = url?.includes("github");
   const splitUrl = url?.split("/");
   const domain = splitUrl?.at(2) ?? "";
-  return `${domain} ${isGithubLink ? splitUrl?.at(3) : ""}`;
+  return `${domain}${isGithubLink ? "/" + splitUrl?.at(3) : ""}`;
 });
 const commentsUrl = "/item?id=" + id;
 </script>

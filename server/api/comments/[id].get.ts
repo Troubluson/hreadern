@@ -13,6 +13,7 @@ export default eventHandler(async (event) => {
       throw new Error("could not get item");
     }
     const item = storySnapshot.val() as Story;
+    return item;
   } catch (error) {
     console.error(error);
   }

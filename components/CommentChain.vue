@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { Comment } from "types";
+import type { ArticleComment } from "~/types";
 const props = defineProps({
   comment: Object,
 });
-const comment = props.comment as Comment;
-const childComments = ref<Comment[]>([]);
+const comment = props.comment as ArticleComment;
+const childComments = ref<ArticleComment[]>([]);
 watchEffect(async () => {
   const childCommentIds = comment?.kids ?? [];
   childComments.value = await Promise.all(
@@ -18,13 +18,12 @@ watchEffect(async () => {
 <template>
   <div>
     <div v-if="comment" class="ml-6 mb-4">
-      <div class="border p-2">
+      <div class="border-b p-2">
         <p class="text-stone-400">
           {{ comment.by }}
           {{ timeSince(comment.time) }}
         </p>
         <p v-html="comment.text"></p>
-        comment
       </div>
       <div v-for="child in childComments">
         <CommentChain :comment="child" />
