@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Comment } from "~/types";
+import type { ArticleComment } from "~/types";
 
 const props = defineProps({
   comment: Object,
   replies: Array,
 });
-const comment = props.comment as Comment;
-const replies = props.replies as Comment[];
+const comment = props.comment as ArticleComment;
+const replies = props.replies as ArticleComment[];
 const [newFirst, ...newReplies] = replies;
 </script>
 

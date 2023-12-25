@@ -23,7 +23,7 @@ watchEffect(async () => {
           {{ comment.by }}
           {{ timeSince(comment.time) }}
         </p>
-        <p v-html="comment.text"></p>
+        <div v-html="comment.text"></div>
       </div>
       <div v-for="child in childComments">
         <CommentChain :comment="child" />
