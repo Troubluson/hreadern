@@ -1,6 +1,15 @@
-# Nuxt 3 Minimal Starter
+# Hacker news reader (WIP)
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## About
+A hacker
+This is a small test project for me to learn Vue and Nuxt as someone who is used to working with React
+
+## Tech
+
+Nuxt 3 (Vue)
+Tailwind CSS
+Firebase Client for realtime database
+
 
 ## Setup
 
