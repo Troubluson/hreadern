@@ -18,7 +18,10 @@ watchEffect(async () => {
 <template>
   <div>
     <div v-if="comment" class="ml-6 mb-4">
-      <div class="border-b p-2">
+      <div
+        v-if="!comment.deleted && !comment.dead"
+        class="border-b p-2 border-stone-400"
+      >
         <p class="text-stone-400">
           {{ comment.by }}
           {{ timeSince(comment.time) }}

@@ -21,6 +21,11 @@ const comments = fullStory.value?.comments;
         {{ story?.url }}
       </h2>
     </NuxtLink>
+    <div
+      class="text-stone-400 border-l p-4 my-8"
+      v-if="story?.text"
+      v-html="story?.text"
+    ></div>
     <h2 class="text-2xl text-stone-400 mb-2">Comments:</h2>
     <div class="text-emerald-600 text-sm" v-for="comment in comments">
       <CommentChain :comment="comment" />

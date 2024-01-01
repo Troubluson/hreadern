@@ -7,7 +7,6 @@ export default eventHandler(async (event) => {
   try {
     const type = getRouterParam(event, "type") ?? "top";
     const path = LIST_PATH + type + "stories";
-    console.log(path);
     const storySnapshot = await get(
       query(child(db, path), limitToFirst(50), orderByKey())
     );

@@ -1,20 +1,36 @@
 import { child, get } from "firebase/database";
 import { db } from "../../lib/firebase";
-import { Story } from "../../../types";
+import { ArticleComment, Story } from "../../../types";
 
-const STORY_PATH = "v0/item/";
+const ITEM_PATH = "v0/item/";
 
 export default eventHandler(async (event) => {
   try {
     const storyId = getRouterParam(event, "id");
-    const path = STORY_PATH + storyId;
-    const storySnapshot = await get(child(db, path));
-    if (!storySnapshot.exists()) {
-      throw new Error("could not get item");
+    if (!storyId) {
+      throw new Error("No id found");
     }
-    const item = storySnapshot.val() as Story;
-    return item;
+    const comment = await getCommentChild(storyId);
+    if (comment) {
+      return comment;
+    } else return null;
   } catch (error) {
     console.error(error);
   }
 });
+
+export const getCommentChild = async (childId: string | number) => {
+  try {
+    const commentPath = ITEM_PATH + childId;
+    const commentSnapshot = await get(child(db, commentPath));
+    if (commentSnapshot.exists()) {
+      const comment = commentSnapshot.val() as ArticleComment;
+      //comment.text = converter.makeHtml(comment.text);
+      return comment;
+    } else {
+      return null;
+    }
+  } catch {
+    return null;
+  }
+};

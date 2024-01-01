@@ -6,8 +6,30 @@ interface ItemBase {
   type: string;
 }
 
+type ItemType = "job" | "story" | "comment" | "poll" | "pollopt";
+
+export interface Item {
+  id: number;
+  deleted?: boolean;
+  type?: ItemType;
+  by?: string;
+  time?: number;
+  text?: string;
+  dead?: boolean;
+  parent?: number;
+  poll?: number;
+  kids?: number[];
+  url?: string;
+  score?: number;
+  title?: string;
+  parts?: string;
+  descendants?: number[];
+}
+
 export interface ArticleComment extends ItemBase {
   text: string;
+  deleted?: boolean;
+  dead?: boolean;
 }
 
 export interface Story extends ItemBase {
@@ -18,6 +40,6 @@ export interface Story extends ItemBase {
 }
 
 export interface FullStory {
-  story: Story;
+  story: Item;
   comments: ArticleComment[];
 }
